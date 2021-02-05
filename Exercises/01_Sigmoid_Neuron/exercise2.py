@@ -74,11 +74,11 @@ class Sigmoid():
             if loss_type == 'mse':
                 plt.ylabel(' Mean Square Error Loss Value')
                 plt.xlabel('Epochs')
-                plt.savefig('Dev-Training-DL/Exercises/Loss_Graphs/MSE_loss_graph.png')
+                plt.savefig('Dev-Training-DL/Exercises/01_Sigmoid_Neuron/Loss_Graphs/MSE_loss_graph.png')
             if loss_type == 'ce':
                 plt.ylabel(' Cross Entropy Error Loss Value')
                 plt.xlabel('Epochs')
-                plt.savefig('Dev-Training-DL/Exercises/Loss_Graphs/CE_loss_graph.png')
+                plt.savefig('Dev-Training-DL/Exercises/01_Sigmoid_Neuron/Loss_Graphs/CE_loss_graph.png')
             plt.show()
 
     def predict(self, X):

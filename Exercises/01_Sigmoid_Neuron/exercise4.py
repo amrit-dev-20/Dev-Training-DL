@@ -87,7 +87,7 @@ def main(args):
     submission = pd.DataFrame(submission)
     submission = submission[['ImageId', 'Class']]
     submission = submission.sort_values(['ImageId'])
-    submission.to_csv("submission_{}.csv".format(LEVEL), index=False)
+    submission.to_csv("Dev-Training-DL/Exercises/01_Sigmoid_Neuron/Submission_Folder/submission_{}.csv".format(LEVEL), index=False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
