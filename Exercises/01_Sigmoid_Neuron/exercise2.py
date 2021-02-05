@@ -73,9 +73,12 @@ class Sigmoid():
             plt.plot(loss.values())
             if loss_type == 'mse':
                 plt.ylabel(' Mean Square Error Loss Value')
+                plt.xlabel('Epochs')
+                plt.savefig('Dev-Training-DL/Exercises/Loss_Graphs/MSE_loss_graph.png')
             if loss_type == 'ce':
                 plt.ylabel(' Cross Entropy Error Loss Value')
-            plt.xlabel('Epochs')
+                plt.xlabel('Epochs')
+                plt.savefig('Dev-Training-DL/Exercises/Loss_Graphs/CE_loss_graph.png')
             plt.show()
 
     def predict(self, X):
@@ -137,7 +140,7 @@ if __name__ == "__main__":
     parser.add_argument('--epochs', type=int,
                         help='Enter the Number of Epochs')
     parser.add_argument('--display_loss', type=bool,
-                        help='Set Display Loss Graph')
+                        help='Set Display Loss Graph: To view loss graph')
     parser.add_argument('--loss_type', type=str,
                         help='Choose Loss Type: MSE or CE')
     args = parser.parse_args()

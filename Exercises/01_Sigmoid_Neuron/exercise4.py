@@ -100,6 +100,6 @@ if __name__ == "__main__":
     parser.add_argument('--loss_type', type=str,
                         help='Choose Loss Type: MSE or CE')
     parser.add_argument('--display_loss', type=bool,
-                        help='Choose Loss Type: MSE or CE')
+                        help='Set Display Loss to view Loss Graph')
     args = parser.parse_args()
     main(args)
