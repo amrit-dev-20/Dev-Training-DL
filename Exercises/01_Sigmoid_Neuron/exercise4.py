@@ -1,15 +1,17 @@
 """
 Image Classification using Sigmoid Neuron: Level 2
 """
-import os
 import argparse
-from PIL import Image
+import os
 
 import numpy as np
 import pandas as pd
-from exercise2 import Sigmoid
-from sklearn.preprocessing import StandardScaler
+from PIL import Image
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
+
+from exercise2 import Sigmoid
+
 
 def read_all(folder_path, key_prefix=""):
     '''
