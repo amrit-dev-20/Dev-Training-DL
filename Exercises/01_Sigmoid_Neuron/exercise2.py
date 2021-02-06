@@ -9,7 +9,7 @@ import matplotlib.colors
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import accuracy_score, mean_squared_error, log_loss
-
+from tqdm import tqdm
 from data_prep_class import DataPreparation
 
 
@@ -50,7 +50,7 @@ class Sigmoid():
         if display_loss:
             loss = {}
 
-        for i in range(epochs):
+        for i in tqdm(range(epochs), total=epochs, unit="epoch"):
             dw = 0
             db = 0
             for x, y in zip(X, Y):

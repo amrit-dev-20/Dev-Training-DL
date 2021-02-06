@@ -7,8 +7,9 @@ import argparse
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import mean_squared_error, accuracy_score
-
+from tqdm import tqdm
 import dataset as data
+import weights_visualization as visual
 
 
 class FFNNScalar:
@@ -81,7 +82,7 @@ class FFNNScalar:
         if display_loss:
             loss = {}
 
-        for i in range(epochs):
+        for i in tqdm(range(epochs), total=epochs, unit="epoch"):
             dw1, dw2, dw3, dw4, dw5, dw6, db1, db2, db3 = [0] * 9
             for x, y in zip(X, Y):
                 self.grad(x, y)
@@ -150,6 +151,21 @@ class FFNNScalar:
             Y_pred.append(self.h1)
         return np.array(Y_pred)
 
+    def plot_boundary(self):
+        xx, yy = visual.make_meshgrid(data.X_train[:, 0], data.X_train[:, 1])
+        predict_functions = [self.predict_h1, self.predict_h2, self.predict_h3]
+
+        for i in range(3):
+            fig, ax = plt.subplots(figsize=(10, 5))
+            visual.plot_contours(ax, predict_functions[i], xx, yy, cmap=data.my_cmap, alpha=0.2)
+            ax.scatter(data.X_train[:, 0], data.X_train[:, 1], c=data.Y_train, cmap=data.my_cmap, alpha=0.8)
+            ax.set_xlim(xx.min(), xx.max())
+            ax.set_ylim(yy.min(), yy.max())
+            ax.set_xlabel('X1')
+            ax.set_ylabel('X2')
+            ax.set_title("h" + str(i + 1))
+
+        return True
 
 def main():
     plt.scatter(data.data[:, 0], data.data[:, 1], c=data.labels, cmap=data.my_cmap)
@@ -174,6 +190,8 @@ def main():
     plt.scatter(data.X_train[:, 0], data.X_train[:, 1], c=Y_pred_binarised_train,
                 cmap=data.my_cmap, s=15 * (np.abs(Y_pred_binarised_train - data.Y_train) + .2))
     plt.show()
+
+    ffn.plot_boundary()
 
 
 if __name__ == "__main__":
