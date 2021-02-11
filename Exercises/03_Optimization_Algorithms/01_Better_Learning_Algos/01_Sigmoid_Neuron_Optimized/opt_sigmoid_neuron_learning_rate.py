@@ -1,12 +1,9 @@
 """
 Implementation of Optimized Sigmoid Neuron.
     Optimizations Include:
-        - Basic GD
-        - Moment Based GD
-        - Nesterov Acc. GD
-        - Mini-Batch
-        - Stochastic GD
-Note: GD -> Gradient Descent
+        - Adagrad
+        - RMSProp
+        - Adam
 """
 import argparse
 
