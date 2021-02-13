@@ -15,8 +15,6 @@ from sklearn.metrics import mean_squared_error
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
-from data_prep_class import DataPreparation
-
 
 class OptimizedSigNeuron:
     """

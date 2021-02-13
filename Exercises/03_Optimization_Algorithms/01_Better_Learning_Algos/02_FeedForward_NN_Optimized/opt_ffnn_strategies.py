@@ -1,5 +1,5 @@
 """
-Implementation of Optimized FeedForward Neural Network
+Implementation of Optimized Strategies for FeedForward Neural Network
 """
 import argparse
 import numpy as np
@@ -28,6 +28,7 @@ class FFNetwork:
             self.update_params["m_w" + str(i)] = 0
             self.prev_update_params["v_w" + str(i)] = 0
             self.prev_update_params["v_b" + str(i)] = 0
+        self.path = 'Dev-Training-DL/Exercises/03_Optimization_Algorithms/01_Better_Learning_Algos/02_FeedForward_NN_Optimized/Loss_Graphs/'
 
     def forward_activation(self, X):
         return 1.0 / (1.0 + np.exp(-X))
@@ -124,7 +125,10 @@ class FFNetwork:
         if display_loss:
             plt.plot(loss.values(), '-o', markersize=5)
             plt.xlabel('Epochs')
-            plt.ylabel('Log Loss')
+            plt.ylabel('{} Log Loss'.format(algo))
+            image_path = self.path + algo + '_Loss_Graph.png'
+            print(image_path)
+            plt.savefig(image_path)
             plt.show()
 
     def predict(self, X):
@@ -152,6 +156,7 @@ def main(args):
     ffn.fit(dataset.X_train, dataset.y_OH_train, epochs=args.epochs, algo=args.algo_type,
             display_loss=args.display_loss, eta=args.learning_rate, mini_batch_size=args.mini_batch_size)
     ffn.print_accuracy(dataset.X_train, dataset.Y_train, dataset.X_val, dataset.Y_val)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--epochs', type=int, help='Enter the No of Epochs', required=True)
