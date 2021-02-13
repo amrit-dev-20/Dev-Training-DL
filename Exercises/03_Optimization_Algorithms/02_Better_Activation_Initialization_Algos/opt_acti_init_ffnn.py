@@ -33,8 +33,8 @@ class FFNNetwork:
         if init_method == "zeros":
             for i in range(1, self.num_layers + 1):
                 self.params["W" + str(i)] = np.zeros(
-                    self.layer_sizes[i - 1], self.layer_sizes[i])
-                self.params["B" + str(i)] = np.zeros(1, self.layer_sizes[i])
+                    (self.layer_sizes[i - 1], self.layer_sizes[i]))
+                self.params["B" + str(i)] = np.zeros((1, self.layer_sizes[i]))
 
         elif init_method == "random":
             for i in range(1, self.num_layers + 1):
@@ -78,12 +78,9 @@ class FFNNetwork:
         elif self.activation_function == "tanh":
             return np.tanh(X)
         elif self.activation_function == "relu":
-            return 1.0 * (X > 0)
+            return np.maximum(0, X)
         elif self.activation_function == "leaky-relu":
-            d = np.zeros_like(X)
-            d[X < 0] = self.leaky_slope
-            d[X >= 0] = 1.0
-            return d
+            return np.maximum(self.leaky_slope * X, X)
 
     def softmax(self, y):
         exps = np.exp(y)
@@ -110,7 +107,7 @@ class FFNNetwork:
             return (1 - np.square(X))
         elif self.activation_function == "relu":
             return 1.0 * (X > 0)
-        elif self.activation_function == "leaky_relu":
+        elif self.activation_function == "leaky-relu":
             d = np.zeros_like(X)
             d[X <= 0] = self.leaky_slope
             d[X > 0] = 1
@@ -123,18 +120,12 @@ class FFNNetwork:
         self.forward_pass(X, params=params)
         m = X.shape[0]
         self.gradients["dA2"] = self.H2 - Y  # (N, 4) - (N, 4) -> (N, 4)
-        self.gradients["dW2"] = np.matmul(
-            self.H1.T, self.gradients["dA2"])  # (2, N) * (N, 4) -> (2, 4)
-        self.gradients["dB2"] = np.sum(
-            self.gradients["dA2"], axis=0).reshape(1, -1)  # (N, 4) -> (1, 4)
-        self.gradients["dH1"] = np.matmul(
-            self.gradients["dA2"], params["W2"].T)  # (N, 4) * (4, 2) -> (N, 2)
-        self.gradients["dA1"] = np.multiply(self.gradients["dH1"], self.grad_activation(
-            self.H1))  # (N, 2) .* (N, 2) -> (N, 2)
-        self.gradients["dW1"] = np.matmul(
-            X.T, self.gradients["dA1"])  # (2, N) * (N, 2) -> (2, 2)
-        self.gradients["dB1"] = np.sum(
-            self.gradients["dA1"], axis=0).reshape(1, -1)  # (N, 2) -> (1, 2)
+        self.gradients["dW2"] = np.matmul(self.H1.T, self.gradients["dA2"])  # (2, N) * (N, 4) -> (2, 4)
+        self.gradients["dB2"] = np.sum(self.gradients["dA2"], axis=0).reshape(1, -1)  # (N, 4) -> (1, 4)
+        self.gradients["dH1"] = np.matmul(self.gradients["dA2"], params["W2"].T)  # (N, 4) * (4, 2) -> (N, 2)
+        self.gradients["dA1"] = np.multiply(self.gradients["dH1"], self.grad_activation(self.H1))  # (N, 2) .* (N, 2) -> (N, 2)
+        self.gradients["dW1"] = np.matmul(X.T, self.gradients["dA1"])  # (2, N) * (N, 2) -> (2, 2)
+        self.gradients["dB1"] = np.sum(self.gradients["dA1"], axis=0).reshape(1, -1)  # (N, 2) -> (1, 2)
 
     def fit(self, X, Y, epochs=1, algo="GD", display_loss=False, eta=1, mini_batch_size=100, eps=1e-8, beta=0.9, beta1=0.9, beta2=0.9,
             gamma=0.9):
@@ -249,7 +240,7 @@ class FFNNetwork:
 
         if display_loss:
             plt.plot(loss.values(), '-o', markersize=5)
-            title = '{} Initializer, {} Activation Function, {} Learning Algorithm' ' Loss Graph'.format(self.init_method, self.activation_function, algo)
+            title = '{} Initializer, {} Activation, {} Learning Algo.' ' Loss Graph'.format(self.init_method, self.activation_function, algo)
             plt.title(title)
             plt.xlabel('Epochs')
             plt.ylabel('Log Loss')
