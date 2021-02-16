@@ -43,8 +43,8 @@ class DataPreparation:
         minmax_scaler = MinMaxScaler()
         Y_scaled_train = minmax_scaler.fit_transform(Y_train.values.reshape(-1, 1))
         Y_scaled_test = minmax_scaler.transform(Y_test.values.reshape(-1, 1))
-        scaled_threshold = list(minmax_scaler.transform(
-            np.array([threshold]).reshape(1, -1)))[0][0]
+        scaled_threshold = list(minmax_scaler.transform(np.array([threshold]).reshape(1, -1)))[0][0]
+
         return X_scaled_train, X_scaled_test, Y_scaled_train, Y_scaled_test, scaled_threshold
 
     def threshold_scaling(self, Y_scaled_train, Y_scaled_test, scaled_threshold):
