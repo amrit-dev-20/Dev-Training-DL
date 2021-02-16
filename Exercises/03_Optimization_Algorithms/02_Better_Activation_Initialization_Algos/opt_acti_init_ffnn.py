@@ -2,6 +2,7 @@
 Implementation of the FFNN with Multiple Activation Functions &
 Initializations.
 """
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import accuracy_score, log_loss
@@ -239,13 +240,18 @@ class FFNNetwork:
                 self.params_h.append(np.concatenate((self.params['W1'].ravel(), self.params['W2'].ravel(), self.params['B1'].ravel(), self.params['B2'].ravel())))
 
         if display_loss:
+            """
+            Folder Structure ->Loss_Graph/init_method/activations/loss_graph.png
+            """
+            folder_path = os.path.join(self.path, self.init_method, self.activation_function)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
             plt.plot(loss.values(), '-o', markersize=5)
             title = '{} Initializer, {} Activation, {} Learning Algo.' ' Loss Graph'.format(self.init_method, self.activation_function, algo)
             plt.title(title)
             plt.xlabel('Epochs')
             plt.ylabel('Log Loss')
-            image_path = self.path + '{}_{}_{}'.format(self.init_method, self.activation_function, algo) + '_Loss_Graph.png'
-            print(image_path)
+            image_path = folder_path + '/{}_{}_{}'.format(self.init_method, self.activation_function, algo) + '_Loss_Graph.png'
             plt.savefig(image_path)
             plt.show()
 

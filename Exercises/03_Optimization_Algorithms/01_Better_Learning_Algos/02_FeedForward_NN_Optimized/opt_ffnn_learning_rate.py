@@ -156,8 +156,7 @@ class FFNetwork:
         print("Training accuracy: ", round(accuracy_train, 4))
         print("Validation accuracy: ", round(accuracy_val, 4))
         if False:
-            plt.scatter(X_train[:, 0], X_train[:, 1], c=Y_pred_train, cmap=dataset.my_cmap,
-                        s=15 * (np.abs(np.sign(Y_pred_train - Y_train)) + .1))
+            plt.scatter(X_train[:, 0], X_train[:, 1], c=Y_pred_train, cmap=dataset.my_cmap,s=15 * (np.abs(np.sign(Y_pred_train - Y_train)) + .1))
             plt.show()
 
 
@@ -173,12 +172,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int,
-                        help='Enter the No of Epochs', required=True)
+    parser.add_argument('--epochs', type=int, help='Enter the No of Epochs', required=True)
     parser.add_argument('--algo_type', type=str, help='Enter the Algorithm')
-    parser.add_argument('--display_loss', type=bool,
-                        help='Set Display Loss to True to view Loss Graph')
-    parser.add_argument('--learning_rate', type=float,
-                        help='Enter the Learning Rate')
+    parser.add_argument('--display_loss', type=bool, help='Set Display Loss to True to view Loss Graph')
+    parser.add_argument('--learning_rate', type=float, help='Enter the Learning Rate')
     args = parser.parse_args()
     main(args)
