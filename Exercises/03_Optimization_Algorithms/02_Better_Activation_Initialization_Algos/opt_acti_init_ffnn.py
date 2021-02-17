@@ -27,30 +27,31 @@ class FFNNetwork:
         # Leaky Slope for Leaky-Relu Activation Function
         self.leaky_slope = 0.1
         # Folder Path for Loss Graphs
-        self.path = 'Dev-Training-DL/Exercises/03_Optimization_Algorithms/02_Better_Activation_Initialization_Algos/Loss_Graphs/'
+        self.path = 'Exercises/03_Optimization_Algorithms/02_Better_Activation_Initialization_Algos/Loss_Graphs'
 
         np.random.seed(0)
-
+        # Initialization Methods
+        # Zero Value Init Method
         if init_method == "zeros":
             for i in range(1, self.num_layers + 1):
                 self.params["W" + str(i)] = np.zeros(
                     (self.layer_sizes[i - 1], self.layer_sizes[i]))
                 self.params["B" + str(i)] = np.zeros((1, self.layer_sizes[i]))
-
+        # Random Value Init Method
         elif init_method == "random":
             for i in range(1, self.num_layers + 1):
                 self.params["W" + str(i)] = np.random.randn(
                     self.layer_sizes[i - 1], self.layer_sizes[i])
                 self.params["B" + str(i)] = np.random.randn(1,
                                                             self.layer_sizes[i])
-
+        # He Init Method
         elif init_method == "he":
             for i in range(1, self.num_layers + 1):
                 self.params["W" + str(i)] = np.random.randn(self.layer_sizes[i - 1], self.layer_sizes[i]) \
                     / np.sqrt(2 / self.layer_sizes[i - 1])
                 self.params["B" + str(i)] = np.random.randn(1,
                                                             self.layer_sizes[i])
-
+        # Xavier Init Method
         elif init_method == "xavier":
             for i in range(1, self.num_layers + 1):
                 self.params["W" + str(i)] = np.random.randn(self.layer_sizes[i - 1], self.layer_sizes[i]) \
@@ -102,6 +103,9 @@ class FFNNetwork:
         return self.H2
 
     def grad_activation(self, X):
+        """
+        Gradients for each Activation Functions:(logistic, tanh, relu, leaky-relu)
+        """
         if self.activation_function == "logistic":
             return X * (1 - X)
         elif self.activation_function == "tanh":
@@ -247,7 +251,7 @@ class FFNNetwork:
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
             plt.plot(loss.values(), '-o', markersize=5)
-            title = '{} Initializer, {} Activation, {} Learning Algo.' ' Loss Graph'.format(self.init_method, self.activation_function, algo)
+            title = '{} Initializer, {} Activation, {} Learning Algo. Loss Graph'.format(self.init_method, self.activation_function, algo)
             plt.title(title)
             plt.xlabel('Epochs')
             plt.ylabel('Log Loss')
