@@ -27,7 +27,7 @@ def main():
     optimizer = optim.SGD(alexnet.model.parameters(), lr=0.001, momentum=0.9)
 
     # Training the Alexnet Model
-    alexnet.fit(trainloader=dataset.trainloader, testloader=dataset.testloader, epochs=10, optimizer=optimizer, criterion=criterion)
+    alexnet.fit(trainloader=dataset.trainloader, testloader=dataset.testloader, epochs=5, optimizer=optimizer, criterion=criterion)
 
 
 if __name__ == "__main__":
