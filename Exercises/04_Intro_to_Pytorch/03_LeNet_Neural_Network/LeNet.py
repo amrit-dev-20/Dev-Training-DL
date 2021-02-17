@@ -1,6 +1,7 @@
 """
 Implementation of the LeNet Architecture
 """
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -24,6 +25,8 @@ class LeNet(nn.Module):
             nn.Tanh(),
             nn.Linear(84, 10)
         )
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.path = 'Exercises/04_Intro_to_Pytorch/03_LeNet_Neural_Network/Loss_Graph/'
 
     def forward(self, x):
         x = self.cnn_model(x)
@@ -35,6 +38,7 @@ class LeNet(nn.Module):
         total, correct = 0, 0
         for data in dataloader:
             inputs, labels = data
+            inputs, labels = inputs.to(self.device), labels.to(self.device)
             outputs = self(inputs)
             _, pred = torch.max(outputs.data, 1)
             total += labels.size(0)
@@ -50,6 +54,7 @@ class LeNet(nn.Module):
             for i, data in enumerate(train_loader, 0):
 
                 inputs, labels = data
+                inputs, labels = inputs.to(self.device), labels.to(self.device)
                 opt.zero_grad()
                 outputs = self(inputs)
                 loss = loss_fn(outputs, labels)
@@ -60,4 +65,5 @@ class LeNet(nn.Module):
             loss_epoch_arr.append(loss.item())
             print('Epoch: %d/%d, Test acc: %0.2f, Train acc: %0.2f' % (epoch, max_epochs, self.evaluation(test_loader), self.evaluation(train_loader)))
         plt.plot(loss_epoch_arr)
+        plt.savefig(os.path.join(self.path, 'LeNet_Loss_Graph.png'))
         plt.show()
