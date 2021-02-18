@@ -17,7 +17,7 @@ def main():
     # print(alexnet.eval())
     alexnet.update_classifier(4, 4096, 1024)
     alexnet.update_classifier(6, 1024, 10)
-    # print(alexnet.eval())
+    print(alexnet.eval())
 
     alexnet.model.to(device)
     # Loss
