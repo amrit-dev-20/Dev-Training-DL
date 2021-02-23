@@ -24,7 +24,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     # Optimizer(SGD)
-    optimizer = optim.SGD(alexnet.model.parameters(), lr=0.001, momentum=0.9)
+    optimizer = optim.Adam(alexnet.model.parameters(), lr=0.0001)
 
     # Training the Alexnet Model
     alexnet.fit(trainloader=dataset.trainloader, testloader=dataset.testloader, epochs=5, optimizer=optimizer, criterion=criterion)
