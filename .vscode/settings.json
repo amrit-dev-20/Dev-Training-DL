@@ -6,5 +6,5 @@
         "--max-line-length=164",
         "--ignore=E402,F841,F401,E302,E305",
     ],
-    "python.pythonPath": "python3",
+    "python.pythonPath": "/home/edisn/DLEnvTorch/bin/python3",
 }
