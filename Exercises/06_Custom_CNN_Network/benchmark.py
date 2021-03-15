@@ -9,10 +9,10 @@ from models.team_classifier_cnn import TeamClassifier as Model
 def main(args):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     model = Model().to(device)
-    # model = Model().to(device)
+
     model.eval()
 
-    x = torch.rand(args.batch_size, 3, 128, 256).to(device)
+    x = torch.rand(args.batch_size, 3, 160, 64).to(device)
 
     starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
     repetitions = 300
@@ -37,6 +37,6 @@ def main(args):
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('--batch_size', type=int, default=32, help='Number of images to run inference on')
+    argparser.add_argument('--batch_size', type=int, default=2048, help='Number of images to run inference on')
 
     main(argparser.parse_args())
