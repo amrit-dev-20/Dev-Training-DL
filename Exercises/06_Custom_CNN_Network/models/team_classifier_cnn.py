@@ -10,10 +10,11 @@ class TeamClassifier(nn.Module):
         self.conv2 = nn.Conv2d(in_channels=8, out_channels=16, kernel_size=3)
         self.conv3 = nn.Conv2d(in_channels=16, out_channels=32, kernel_size=3)
         self.conv4 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3)
-        self.dropout = nn.Dropout2d(p=0.25)
+        self.dropout = nn.Dropout2d(p=0.50)
 
-        self.fc_layer1 = nn.Linear(5376, 1024)
-        self.fc_layer2 = nn.Linear(1024, 2)
+        self.fc_layer1 = nn.Linear(1024, 512)
+        self.fc_layer2 = nn.Linear(512, 256)
+        self.fc_layer3 = nn.Linear(256, 124)
 
         self.training = True
 
@@ -25,12 +26,12 @@ class TeamClassifier(nn.Module):
         x = x.view(x.shape[0], -1)
         x = self.fc_layer1(x)
         x = self.fc_layer2(x)
+        x = self.fc_layer3(x)
         return x
 
-"""
+
 if __name__ == "__main__":
-    x = torch.rand([4, 3, 128, 256])
-    net = PlayerClassifier()
+    x = torch.rand([4, 3, 160, 64])
+    net = TeamClassifier()
     out = net(x)
     print("Output Dimension {}:".format(out.shape))
-"""
