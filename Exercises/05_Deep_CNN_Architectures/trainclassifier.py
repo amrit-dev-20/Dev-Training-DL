@@ -1,3 +1,4 @@
+from os.path import join
 import torch
 import torch.nn as nn
 from tqdm import tqdm
@@ -52,7 +53,7 @@ class ClassifierTrain:
 
         return val_loss, acc
 
-    def train(self, epochs):
+    def train(self, epochs, checkpoint_path):
 
         for epoch in range(1, epochs + 1):
             train_loss = self.train_epoch()
