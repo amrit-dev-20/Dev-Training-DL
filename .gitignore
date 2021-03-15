@@ -9,3 +9,9 @@ data/cifar-10-batches-py/readme.html
 data/cifar-10-batches-py/test_batch
 *.jpg
 *.pyc
+*.pt
+*.pth
+Exercises/07_Spatial_Transformer_Networks/train.py
+data/MNIST
+*.tar.gz
+*.csv
