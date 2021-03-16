@@ -71,13 +71,6 @@ class TeamClassifierTrain:
             'training_loss': train_loss}, filename)
         return filename
 
-    def load_model(self, model_path):
-        if isfile(model_path):
-            weights = torch.load(model_path)
-            self.model.load_state_dict(weights['state_dict'])
-            self.model.to(self.device)
-            self.model.eval()
-
     def __export_model(self, checkpoint_path, export_path):
         checkpoint = torch.load(join(checkpoint_path, 'team_classifier_best.pth'))
         model = checkpoint['model']
@@ -85,6 +78,13 @@ class TeamClassifierTrain:
         filename = join(export_path, 'team_classifier_model.pt')
         torch.save(model.state_dict(), filename)
         print('Model Exported in this path: {}'.format(export_path))
+
+    def load_model(self, model_path):
+        if isfile(model_path):
+            weights = torch.load(model_path)
+            self.model.load_state_dict(weights['state_dict'])
+            self.model.to(self.device)
+            self.model.eval()
 
     def train(self, epochs, checkpoint_path, export_path):
         train_loss_best = 0.0
@@ -104,6 +104,7 @@ class TeamClassifierTrain:
                 val_loss_best = round(validation_loss, 3)
                 val_acc_best = round(validation_accuracy, 3)
                 model_path = self.__save_model(checkpoint_path, epoch, train_loss, val_acc_best)
+            print('Checkpoint saved in this path: {}'.format(model_path))
 
         self.__export_model(model_path, export_path)
         print('Training complete!')
