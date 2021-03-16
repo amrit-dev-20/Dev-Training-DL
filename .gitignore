@@ -11,7 +11,6 @@ data/cifar-10-batches-py/test_batch
 *.pyc
 *.pt
 *.pth
-Exercises/07_Spatial_Transformer_Networks/train.py
 data/MNIST
 *.tar.gz
 *.csv

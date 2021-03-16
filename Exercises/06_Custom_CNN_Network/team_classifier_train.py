@@ -62,13 +62,14 @@ class TeamClassifierTrain:
         if not exists(checkpoint_path):
             makedirs(checkpoint_path)
 
-        filename = join(checkpoint_path, 'team_classifier_best.pth')
+        filename = join(checkpoint_path, 'team_classifier_epoch_{}_val_acc{}.pth'.format(epoch, val_acc))
         torch.save({
             'model': self.model,
             'epoch': epoch,
             'state_dict': self.model.state_dict(),
             'optimizer': self.optimizer.state_dict(),
             'training_loss': train_loss}, filename)
+        return filename
 
     def load_model(self, model_path):
         if isfile(model_path):
@@ -77,8 +78,7 @@ class TeamClassifierTrain:
             self.model.to(self.device)
             self.model.eval()
 
-    def __export_model(self, checkpoint_path):
-        export_path = '/home/edisn/Pytorch_CNN_Training/Dev-Training-DL/Exercises/06_Custom_CNN_Network/exports/'
+    def __export_model(self, checkpoint_path, export_path):
         checkpoint = torch.load(join(checkpoint_path, 'team_classifier_best.pth'))
         model = checkpoint['model']
         model.load_state_dict(checkpoint['state_dict'])
@@ -86,7 +86,7 @@ class TeamClassifierTrain:
         torch.save(model.state_dict(), filename)
         print('Model Exported in this path: {}'.format(export_path))
 
-    def train(self, epochs, checkpoint_path):
+    def train(self, epochs, checkpoint_path, export_path):
         train_loss_best = 0.0
         val_loss_best = 0.0
         val_acc_best = 0.0
@@ -103,9 +103,9 @@ class TeamClassifierTrain:
             if val_loss_best < validation_loss or val_acc_best < validation_accuracy:
                 val_loss_best = round(validation_loss, 3)
                 val_acc_best = round(validation_accuracy, 3)
-                self.__save_model(checkpoint_path, epoch, train_loss, val_acc_best)
+                model_path = self.__save_model(checkpoint_path, epoch, train_loss, val_acc_best)
 
-        self.__export_model(checkpoint_path)
+        self.__export_model(model_path, export_path)
         print('Training complete!')
 
     def mlflow_logging(self):

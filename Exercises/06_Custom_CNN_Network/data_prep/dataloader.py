@@ -8,19 +8,18 @@ import pandas as pd
 import torchvision.transforms as transforms
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
-from torchvision.datasets import ImageFolder
 
 from .team_dataset import TeamDataset
 from .prepare_classification_dataset import DatasetPreparator
 
 class Dataloader:
-    def __init__(self, batch_size, dataset_path):
+    def __init__(self, batch_size, dataset_path, train_path):
         self.data_csv = None
         self.image_path = None
 
         self.batch_size = batch_size
         self.dataset_path = dataset_path
-        self.train_path = '/home/edisn/Pytorch_CNN_Training/Dev-Training-DL/Exercises/06_Custom_CNN_Network/training_data/'
+        self.train_path = train_path
         self.data_prep = DatasetPreparator()
 
         # Getting Mean and Standard Deviation
