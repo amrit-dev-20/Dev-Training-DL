@@ -1,9 +1,7 @@
 """
-Generic Dataloader.
+Dataloader.
 """
-import argparse
-from os.path import join, exists
-
+# import argparse
 import pandas as pd
 import torchvision.transforms as transforms
 from sklearn.model_selection import train_test_split
@@ -20,7 +18,7 @@ class Dataloader:
         self.train_path = train_path
 
         # Initialization of Dataset Preparation Class
-        self.data_prep = DatasetPreparator(self.dataset_path, self.trainpath)
+        self.data_prep = DatasetPreparator(self.dataset_path, self.train_path)
         self.csv_path = self.data_prep.dataset_creator()
 
         # __parameters_normalized() code

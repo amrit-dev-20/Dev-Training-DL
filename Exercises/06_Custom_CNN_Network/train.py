@@ -15,7 +15,7 @@ if __name__ == "__main__":
     parser.add_argument('--project_name', type=str, required=True)
     parser.add_argument('--dataset_path', type=str, required=True)
     parser.add_argument('--output_path', type=str, required=True)
-    parser.add_argument('--batch_size', type=int, default=2048)
+    parser.add_argument('--batch_size', type=int, default=512)
     parser.add_argument('--learning_rate', type=float, default=0.001, help="Enter the Learning Rate")
     parser.add_argument('--epochs', type=int, default=5)
     args = parser.parse_args()

@@ -72,7 +72,7 @@ class TeamClassifierTrain:
         return filename
 
     def __export_model(self, checkpoint_path, export_path):
-        checkpoint = torch.load(join(checkpoint_path, 'team_classifier_best.pth'))
+        checkpoint = torch.load(checkpoint_path)
         model = checkpoint['model']
         model.load_state_dict(checkpoint['state_dict'])
         filename = join(export_path, 'team_classifier_model.pt')
